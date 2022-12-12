@@ -22,10 +22,11 @@ const MainHangHaman = () => {
   //write a function to set a new game
   const startNewGame = () => {
     // setNewGame(true);
-    setWordToGuess(getWord());
+    setWordToGuess(getWord);
     setGuessedLetters([]);
     setGameOver(false);
     setShowModal(false);
+
     console.log("new game started");
     // setNewGame(false);
   };

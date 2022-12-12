@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
+import Animated, { SlideInDown } from "react-native-reanimated";
 
 import styles, { keyWidth } from "./Keyboard.styles";
 const Keyboard = ({
@@ -66,7 +67,10 @@ const Keyboard = ({
   };
 
   return (
-    <View style={[styles.keyboard, { marginTop: setMargintop() }]}>
+    <Animated.View
+      entering={SlideInDown.duration(1300).springify().mass(0.5)}
+      style={[styles.keyboard, { marginTop: setMargintop() }]}
+    >
       {keys.map((keyRow, i) => (
         <View style={styles.row} key={`row-${i}`}>
           {keyRow.map((key, index) => {
@@ -114,7 +118,7 @@ const Keyboard = ({
           })}
         </View>
       ))}
-    </View>
+    </Animated.View>
   );
 };
 

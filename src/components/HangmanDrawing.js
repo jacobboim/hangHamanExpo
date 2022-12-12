@@ -1,20 +1,94 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
+import Animated, {
+  RollInLeft,
+  PinwheelIn,
+  FlipInYRight,
+  BounceIn,
+} from "react-native-reanimated";
+
+import { Keyframe, Easing } from "react-native-reanimated";
 
 const HangmanDrawing = ({ numberOfGuesses }) => {
-  const HAT = <View style={[styles.triangle, styles.arrowUp]} />;
+  const rightArm = new Keyframe({
+    0: {
+      transform: [{ rotate: "45deg" }],
+    },
+    30: {
+      transform: [{ rotate: "-90deg" }],
+    },
+    100: {
+      transform: [{ rotate: "45deg" }],
+      easing: Easing.quad,
+    },
+  }).duration(2000);
 
-  const HEAD = <View style={styles.head} />;
+  const leftArm = new Keyframe({
+    0: {
+      transform: [{ rotate: "45deg" }],
+    },
+    30: {
+      transform: [{ rotate: "-90deg" }],
+    },
+    100: {
+      transform: [{ rotate: "-45deg" }],
+      easing: Easing.quad,
+    },
+  }).duration(2000);
 
-  const BODY = <View style={styles.body} />;
+  const rightLeg = new Keyframe({
+    0: {
+      transform: [{ rotate: "0deg" }],
+    },
+    100: {
+      transform: [{ rotate: "145deg" }],
+    },
+  });
 
-  const RIGHT_ARM = <View style={styles.rightArm} />;
+  const leftLeg = new Keyframe({
+    0: {
+      transform: [{ rotate: "0deg" }],
+    },
+    100: {
+      transform: [{ rotate: "-145deg" }],
+    },
+  });
+  const HAT = (
+    <Animated.View
+      entering={RollInLeft.duration(1300).springify().mass(0.5)}
+      style={[styles.triangle, styles.arrowUp]}
+    />
+  );
 
-  const LEFT_ARM = <View style={styles.leftArm} />;
+  const HEAD = (
+    <Animated.View
+      entering={RollInLeft.duration(1300).springify().mass(0.5)}
+      style={styles.head}
+    />
+  );
 
-  const RIGHT_LEG = <View style={styles.rightLeg} />;
+  const BODY = (
+    <Animated.View
+      entering={RollInLeft.duration(1300).springify().mass(0.5)}
+      style={styles.body}
+    />
+  );
 
-  const LEFT_LEG = <View style={styles.leftLeg} />;
+  const RIGHT_ARM = (
+    <Animated.View entering={rightArm.duration(1300)} style={styles.rightArm} />
+  );
+
+  const LEFT_ARM = (
+    <Animated.View entering={leftArm.duration(1300)} style={styles.leftArm} />
+  );
+
+  const RIGHT_LEG = (
+    <Animated.View entering={rightLeg.duration(1000)} style={styles.rightLeg} />
+  );
+
+  const LEFT_LEG = (
+    <Animated.View entering={leftLeg.duration(1000)} style={styles.leftLeg} />
+  );
 
   const BODY_PARTS = [
     HAT,

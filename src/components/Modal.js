@@ -1,19 +1,50 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 
 const Modal = ({ isWinner, startNewGame }) => {
+  const [keyDown, setKeyDown] = useState(false);
+
   return (
     <View style={styles.container}>
       {isWinner ? (
         <View style={styles.container}>
-          <Text style={styles.win}>You Win!</Text>
-          <Pressable onPress={startNewGame}>
-            <Text>Play Again</Text>
+          <Pressable
+            onPress={startNewGame}
+            onTouchStart={() => setKeyDown(true)}
+            onTouchEnd={() => setKeyDown(false)}
+            style={{
+              backgroundColor: keyDown ? "darkgray" : "gray",
+              borderRadius: 20,
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "row",
+              height: 60,
+              width: 200,
+              marginTop: 20,
+            }}
+          >
+            <Text style={styles.win}>Play Again</Text>
           </Pressable>
         </View>
       ) : (
         <View style={styles.container}>
-          <Text style={styles.lose}>You Lose!</Text>
+          <Pressable
+            onPress={startNewGame}
+            onTouchStart={() => setKeyDown(true)}
+            onTouchEnd={() => setKeyDown(false)}
+            style={{
+              backgroundColor: keyDown ? "darkgray" : "gray",
+              borderRadius: 20,
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "row",
+              height: 60,
+              width: 200,
+              marginTop: 20,
+            }}
+          >
+            <Text style={styles.lose}>You Lose!</Text>
+          </Pressable>
         </View>
       )}
     </View>
@@ -31,7 +62,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   win: {
-    color: "green",
+    color: "white",
     fontSize: 30,
   },
   lose: {
