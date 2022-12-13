@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "hangmanExpo",
-    "slug": "hangmanExpo",
-    "version": "1.0.0",
+    "name": "Hang Haman",
+    "slug": "hangHaman",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -12,13 +12,14 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/77326782-66d1-474b-bb97-84b86a053c39"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jacobboim.hangHaman",
+      "buildNumber": "3"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,6 +29,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "77326782-66d1-474b-bb97-84b86a053c39"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
   }
 }

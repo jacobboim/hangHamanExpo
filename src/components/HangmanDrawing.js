@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
+
 import React from "react";
 import Animated, {
   RollInLeft,
@@ -8,6 +9,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { Keyframe, Easing } from "react-native-reanimated";
+const screenWidth = Dimensions.get("window").width;
 
 const HangmanDrawing = ({ numberOfGuesses }) => {
   const rightArm = new Keyframe({
@@ -102,6 +104,17 @@ const HangmanDrawing = ({ numberOfGuesses }) => {
 
   return (
     <View style={styles.container}>
+      <Text
+        style={{
+          fontSize: 30,
+          fontWeight: "bold",
+          color: "black",
+          textAlign: "center",
+          marginBottom: 40,
+        }}
+      >
+        Hang Haman
+      </Text>
       <View style={styles.gallow}>{BODY_PARTS.slice(0, numberOfGuesses)}</View>
 
       <View style={styles.stickFigure}>
@@ -141,7 +154,7 @@ const styles = StyleSheet.create({
     width: 10,
     backgroundColor: "black",
     top: 0,
-    right: "-38%",
+    right: -50,
 
     position: "absolute",
   },
@@ -158,7 +171,12 @@ const styles = StyleSheet.create({
     width: 10,
     backgroundColor: "black",
     marginLeft: "13%",
+    //style for small screen
+    ...(screenWidth <= 2209 && {
+      height: 280,
+    }),
   },
+
   bottomLine: {
     height: 10,
     width: 300,
