@@ -7,6 +7,7 @@ import HangmanWord from "./HangmanWord";
 import Keyboard from "./Keyboard/Keyboard.js";
 
 import Modal from "./Modal";
+import { LinearGradient } from "expo-linear-gradient";
 
 function getWord() {
   return words[Math.floor(Math.random() * words.length)];
@@ -113,29 +114,49 @@ const MainHangHaman = () => {
 
   return (
     <View style={styles.container}>
-      <HangmanDrawing numberOfGuesses={incorrectLetters.length} />
-      <HangmanWord
-        reveal={isLoser}
-        guessedLetters={guessedLetters}
-        wordToGuess={wordToGuess}
-      />
-
-      <Keyboard
-        disabled={isWinner || isLoser}
-        activeLetter={guessedLetters.filter((letter) =>
-          wordToGuess.includes(letter)
-        )}
-        inactiveLetter={incorrectLetters}
-        guessedLetters={guessedLetters}
-        addGuessedLetter={addGuessedLetter}
-      />
-      {showModal && (
-        <Modal
+      <LinearGradient
+        // colors={["#607D8B", "#90A4AE", "#B0BEC5", "#CFD8DC", "#ECEFF1"]}
+        colors={["#607D8B", "#546E7A", "#455A64", "#37474F", "#263238"]}
+        // colors={["#607D8B", "#455A64", "#37474F", "#263238", "#212121"]}
+        // colors={[
+        //   "#607D8B",
+        //   "#546E7A",
+        //   "#455A64",
+        //   "#37474F",
+        //   "#263238",
+        //   "#212121",
+        //   "#000000",
+        // ]}
+        style={styles.linearGradient}
+      >
+        <HangmanDrawing
+          numberOfGuesses={incorrectLetters.length}
           isWinner={isWinner}
-          wordToGuess={wordToGuess}
-          startNewGame={startNewGame}
+          isLoser={isLoser}
         />
-      )}
+        <HangmanWord
+          reveal={isLoser}
+          guessedLetters={guessedLetters}
+          wordToGuess={wordToGuess}
+        />
+
+        <Keyboard
+          disabled={isWinner || isLoser}
+          activeLetter={guessedLetters.filter((letter) =>
+            wordToGuess.includes(letter)
+          )}
+          inactiveLetter={incorrectLetters}
+          guessedLetters={guessedLetters}
+          addGuessedLetter={addGuessedLetter}
+        />
+        {showModal && (
+          <Modal
+            isWinner={isWinner}
+            wordToGuess={wordToGuess}
+            startNewGame={startNewGame}
+          />
+        )}
+      </LinearGradient>
     </View>
   );
 };
@@ -151,5 +172,13 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "flex-start",
     // backgroundColor: "blue",
+  },
+  linearGradient: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    height: "100%",
+    // flex: 1,
   },
 });

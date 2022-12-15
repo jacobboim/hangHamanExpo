@@ -23,7 +23,7 @@ const Modal = ({ isWinner, startNewGame }) => {
               marginTop: 20,
             }}
           >
-            <Text style={styles.win}>Play Again</Text>
+            <Text style={styles.win}>Play Again!</Text>
           </Pressable>
         </View>
       ) : (
@@ -43,7 +43,7 @@ const Modal = ({ isWinner, startNewGame }) => {
               marginTop: 20,
             }}
           >
-            <Text style={styles.lose}>You Lose!</Text>
+            <Text style={styles.lose}>Play Again!</Text>
           </Pressable>
         </View>
       )}
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   lose: {
-    color: "red",
+    color: "darkred",
     fontSize: 30,
   },
 });

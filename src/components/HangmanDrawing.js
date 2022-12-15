@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
 
 import React from "react";
 import Animated, {
@@ -7,11 +7,13 @@ import Animated, {
   FlipInYRight,
   BounceIn,
 } from "react-native-reanimated";
+import { LinearGradient } from "expo-linear-gradient";
 
+import { ICONS } from "../../assets";
 import { Keyframe, Easing } from "react-native-reanimated";
 const screenWidth = Dimensions.get("window").width;
 
-const HangmanDrawing = ({ numberOfGuesses }) => {
+const HangmanDrawing = ({ numberOfGuesses, isWinner, isLoser }) => {
   const rightArm = new Keyframe({
     0: {
       transform: [{ rotate: "45deg" }],
@@ -69,6 +71,14 @@ const HangmanDrawing = ({ numberOfGuesses }) => {
     />
   );
 
+  const Headtwo = (
+    <View style={styles.headTwo}>
+      <View style={[styles.eyes, styles.leftEye]} />
+      <View style={[styles.eyes, styles.rightEye]} />
+      <View style={isWinner ? styles.smile : styles.frown} />
+    </View>
+  );
+
   const BODY = (
     <Animated.View
       entering={RollInLeft.duration(1300).springify().mass(0.5)}
@@ -92,9 +102,35 @@ const HangmanDrawing = ({ numberOfGuesses }) => {
     <Animated.View entering={leftLeg.duration(1000)} style={styles.leftLeg} />
   );
 
+  const hamanTash = (
+    <Animated.Image
+      entering={RollInLeft.duration(1300).springify().mass(0.5)}
+      source={ICONS.hamanTash}
+      style={{
+        width: 40,
+        height: 33,
+        position: "absolute",
+        top: 47,
+        right: -125,
+      }}
+    />
+  );
+
+  const ifWinnerShowCertainHead = () => {
+    if (isWinner || isLoser === true) {
+      return Headtwo;
+    } else {
+      return HEAD;
+    }
+  };
+
   const BODY_PARTS = [
-    HAT,
-    HEAD,
+    // HAT,
+    hamanTash,
+    // HEAD,
+    // Headtwo,
+
+    ifWinnerShowCertainHead(),
     BODY,
     RIGHT_ARM,
     LEFT_ARM,
@@ -108,9 +144,10 @@ const HangmanDrawing = ({ numberOfGuesses }) => {
         style={{
           fontSize: 30,
           fontWeight: "bold",
-          color: "black",
+          color: "white",
           textAlign: "center",
           marginBottom: 40,
+          opacity: 0.8,
         }}
       >
         Hang Haman
@@ -121,6 +158,7 @@ const HangmanDrawing = ({ numberOfGuesses }) => {
         <View style={styles.downLine} />
 
         <View style={styles.topLine} />
+        <View style={styles.diagnolLine} />
         <View style={styles.middleLine} />
         <View style={styles.bottomLine} />
       </View>
@@ -138,9 +176,17 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     height: "50%",
     width: "100%",
-    marginTop: "15%",
+    marginTop: "7%",
     alignItems: "center",
     justifyContent: "center",
+    // backgroundColor: "yellow",
+  },
+  linearGradient: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    height: "190%",
   },
 
   lineStyle: {
@@ -165,6 +211,17 @@ const styles = StyleSheet.create({
     marginLeft: "13%",
 
     backgroundColor: "black",
+  },
+
+  diagnolLine: {
+    height: 10,
+    width: 90,
+    marginLeft: "7%",
+    marginTop: 35,
+    position: "absolute",
+
+    backgroundColor: "black",
+    transform: [{ rotate: "-45deg" }],
   },
   middleLine: {
     height: 300,
@@ -266,5 +323,51 @@ const styles = StyleSheet.create({
   stickFigure: {
     width: "30%",
     height: "70%",
+  },
+
+  headTwo: {
+    height: 50,
+    width: 50,
+    borderRadius: 50,
+    backgroundColor: "#fff",
+    borderWidth: 8,
+    borderColor: "#000",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+
+    top: 80,
+    right: -130,
+  },
+  eyes: {
+    width: 8,
+    height: 8,
+    backgroundColor: "#000",
+    borderRadius: 10,
+    position: "absolute",
+  },
+  leftEye: {
+    left: 20,
+    top: 10,
+  },
+  rightEye: {
+    right: 20,
+    top: 10,
+  },
+  smile: {
+    width: 15,
+    height: 9,
+    marginTop: 20,
+    borderBottomLeftRadius: 35,
+    borderBottomRightRadius: 35,
+    backgroundColor: "black",
+  },
+  frown: {
+    width: 15,
+    height: 9,
+    marginTop: 16,
+    borderTopLeftRadius: 35,
+    borderTopRightRadius: 35,
+    backgroundColor: "black",
   },
 });

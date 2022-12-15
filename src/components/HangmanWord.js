@@ -11,11 +11,24 @@ const HangmanWord = ({ guessedLetters, wordToGuess, reveal }) => {
     //loop through the word and add an underline for each letter
     let underLine = "";
     for (let i = 0; i < numUnderline; i++) {
-      underLine += "__  ";
+      if (numUnderline === 7) {
+        underLine += "__ ";
+      } else {
+        underLine += "__  ";
+      }
     }
     console.log(underLine, "this is the underline");
 
     return underLine;
+  };
+
+  const wordToGuessLength = () => {
+    const wordLength = wordToGuess.length;
+    if (wordLength === 7) {
+      return "13%";
+    } else {
+      return "15%";
+    }
   };
 
   return (
@@ -25,7 +38,7 @@ const HangmanWord = ({ guessedLetters, wordToGuess, reveal }) => {
           <View
             key={index}
             style={{
-              width: "15%",
+              width: wordToGuessLength(),
             }}
           >
             <Text
@@ -34,7 +47,8 @@ const HangmanWord = ({ guessedLetters, wordToGuess, reveal }) => {
                 {
                   display:
                     guessedLetters.includes(letter) || reveal ? "flex" : "none",
-                  color: !guessedLetters.includes(letter) ? "red" : "black",
+                  color: !guessedLetters.includes(letter) ? "red" : "white",
+                  opacity: !guessedLetters.includes(letter) ? 1 : 0.8,
                 },
               ]}
             >
