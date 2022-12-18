@@ -57,10 +57,13 @@ const Keyboard = ({
 
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const [keyDown, setKeyDown] = useState("");
+  const screenWidth = Dimensions.get("screen").width;
 
   const setMargintop = () => {
     if (activeLetter.length === 0) {
       return "20%";
+    } else if (screenWidth === 1024) {
+      return "10%";
     } else {
       return "10%";
     }

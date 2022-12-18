@@ -1,5 +1,7 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import React, { useState } from "react";
+
+const screenWidth = Dimensions.get("screen").width;
 
 const HangmanWord = ({ guessedLetters, wordToGuess, reveal }) => {
   const splitWord = wordToGuess.split("");
@@ -13,6 +15,10 @@ const HangmanWord = ({ guessedLetters, wordToGuess, reveal }) => {
     for (let i = 0; i < numUnderline; i++) {
       if (numUnderline === 7) {
         underLine += "__ ";
+      } else if (screenWidth === 414) {
+        underLine += "__   ";
+      } else if (screenWidth === 1024) {
+        underLine += "__       ";
       } else {
         underLine += "__  ";
       }
@@ -26,8 +32,10 @@ const HangmanWord = ({ guessedLetters, wordToGuess, reveal }) => {
     const wordLength = wordToGuess.length;
     if (wordLength === 7) {
       return "13%";
+    } else if (screenWidth === 1024) {
+      return "10%";
     } else {
-      return "15%";
+      return "16%";
     }
   };
 
@@ -80,6 +88,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "column",
     width: "100%",
+    marginTop: "3%",
   },
 
   actualWordCont: {
@@ -106,6 +115,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     alignItems: "center",
+    //style for small screen
+    ...(screenWidth === 414 && {
+      fontSize: 35,
+    }),
   },
   fakeLetter: {
     fontSize: 40,
@@ -113,6 +126,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     alignItems: "center",
+    ...(screenWidth === 414 && {
+      fontSize: 35,
+    }),
   },
 
   fakeLetterContainer: {},

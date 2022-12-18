@@ -1,17 +1,26 @@
-import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Image,
+  useWindowDimensions,
+} from "react-native";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Animated, {
   RollInLeft,
   PinwheelIn,
   FlipInYRight,
   BounceIn,
+  FadeOutDown,
 } from "react-native-reanimated";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { ICONS } from "../../assets";
 import { Keyframe, Easing } from "react-native-reanimated";
-const screenWidth = Dimensions.get("window").width;
+const screenWidth = Dimensions.get("screen").width;
+const windowHeight = Dimensions.get("screen").height;
 
 const HangmanDrawing = ({ numberOfGuesses, isWinner, isLoser }) => {
   const rightArm = new Keyframe({
@@ -112,6 +121,13 @@ const HangmanDrawing = ({ numberOfGuesses, isWinner, isLoser }) => {
         position: "absolute",
         top: 47,
         right: -125,
+        ...(screenWidth === 1024 && {
+          width: 70,
+          height: 70,
+          position: "absolute",
+          top: 48,
+          right: -175,
+        }),
       }}
     />
   );
@@ -138,6 +154,11 @@ const HangmanDrawing = ({ numberOfGuesses, isWinner, isLoser }) => {
     LEFT_LEG,
   ];
 
+  useEffect(() => {
+    console.log(screenWidth, "screenWidth");
+    console.log(windowHeight, "windowHeight");
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text
@@ -148,11 +169,25 @@ const HangmanDrawing = ({ numberOfGuesses, isWinner, isLoser }) => {
           textAlign: "center",
           marginBottom: 40,
           opacity: 0.8,
+
+          //style for ipad screen
+          ...(screenWidth === 1024 && {
+            fontSize: 47,
+          }),
+          ...(screenWidth === 414 && {
+            fontSize: 28,
+            marginBottom: 28,
+          }),
         }}
       >
         Hang Haman
       </Text>
-      <View style={styles.gallow}>{BODY_PARTS.slice(0, numberOfGuesses)}</View>
+      <Animated.View
+        exiting={FadeOutDown.duration(8300).springify().mass(0.5)}
+        // style={[styles.gallow, { display: isLoser === true ? "none" : "flex" }]}
+      >
+        {BODY_PARTS.slice(0, numberOfGuesses)}
+      </Animated.View>
 
       <View style={styles.stickFigure}>
         <View style={styles.downLine} />
@@ -200,9 +235,30 @@ const styles = StyleSheet.create({
     width: 10,
     backgroundColor: "black",
     top: 0,
-    right: -50,
+    right: -53,
 
     position: "absolute",
+
+    //style for ipad
+    ...(screenWidth === 1024 && {
+      height: 50,
+      width: 15,
+      backgroundColor: "black",
+      top: 0,
+      right: 4,
+
+      position: "absolute",
+    }),
+    //style for small screen
+    ...(screenWidth === 414 && {
+      height: 50,
+      width: 10,
+      backgroundColor: "black",
+      top: 0,
+      right: -48,
+
+      position: "absolute",
+    }),
   },
 
   topLine: {
@@ -211,6 +267,14 @@ const styles = StyleSheet.create({
     marginLeft: "13%",
 
     backgroundColor: "black",
+    //style for ipad
+    ...(screenWidth === 1024 && {
+      height: 15,
+      width: 250,
+      marginLeft: "13%",
+
+      backgroundColor: "black",
+    }),
   },
 
   diagnolLine: {
@@ -222,15 +286,34 @@ const styles = StyleSheet.create({
 
     backgroundColor: "black",
     transform: [{ rotate: "-45deg" }],
+
+    //style for ipad
+    ...(screenWidth === 1024 && {
+      height: 15,
+      width: 85,
+      marginLeft: "10%",
+      marginTop: 35,
+      position: "absolute",
+
+      backgroundColor: "black",
+      transform: [{ rotate: "-45deg" }],
+    }),
   },
   middleLine: {
-    height: 300,
+    height: 285,
     width: 10,
     backgroundColor: "black",
     marginLeft: "13%",
+    //style for ipad
+    ...(screenWidth === 1024 && {
+      height: 400,
+      width: 15,
+      backgroundColor: "black",
+      marginLeft: "13%",
+    }),
     //style for small screen
-    ...(screenWidth <= 2209 && {
-      height: 280,
+    ...(screenWidth === 414 && {
+      height: 250,
     }),
   },
 
@@ -239,6 +322,15 @@ const styles = StyleSheet.create({
     width: 300,
     marginLeft: "-80%",
     backgroundColor: "black",
+    //style for ipad
+    ...(screenWidth === 1024 && {
+      marginLeft: "-50%",
+      height: 15,
+      width: 540,
+    }),
+    ...(screenWidth === 414 && {
+      top: 2,
+    }),
   },
 
   triangle: {
@@ -275,6 +367,20 @@ const styles = StyleSheet.create({
 
     top: 80,
     right: -130,
+    ...(screenWidth === 1024 && {
+      height: 70,
+      width: 70,
+      borderRadius: 50,
+      backgroundColor: "#fff",
+      borderWidth: 8,
+      borderColor: "#000",
+      alignItems: "center",
+      justifyContent: "center",
+      position: "absolute",
+
+      top: 110,
+      right: -175,
+    }),
   },
   body: {
     height: 100,
@@ -283,6 +389,19 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 125,
     left: 100,
+    //style for ipad
+    ...(screenWidth === 1024 && {
+      height: 130,
+      width: 10,
+      backgroundColor: "#000",
+      position: "absolute",
+      top: 173,
+      left: 135,
+    }),
+    //style for small screen
+    ...(screenWidth === 414 && {
+      height: 80,
+    }),
   },
   leftArm: {
     height: 75,
@@ -292,6 +411,18 @@ const styles = StyleSheet.create({
     top: 115,
     left: 75,
     transform: [{ rotate: "-45deg" }],
+    //style for ipad
+    ...(screenWidth === 1024 && {
+      height: 75,
+      width: 10,
+      backgroundColor: "#000",
+      position: "absolute",
+      top: 170,
+      left: 105,
+    }),
+    ...(screenWidth === 414 && {
+      top: 105,
+    }),
   },
   rightArm: {
     height: 75,
@@ -301,6 +432,18 @@ const styles = StyleSheet.create({
     top: 115,
     left: 125,
     transform: [{ rotate: "45deg" }],
+    //style for ipad
+    ...(screenWidth === 1024 && {
+      height: 75,
+      width: 10,
+      backgroundColor: "#000",
+      position: "absolute",
+      top: 170,
+      left: 165,
+    }),
+    ...(screenWidth === 414 && {
+      top: 105,
+    }),
   },
   leftLeg: {
     height: 75,
@@ -310,6 +453,19 @@ const styles = StyleSheet.create({
     top: 212,
     left: 75,
     transform: [{ rotate: "45deg" }],
+
+    //style for ipad
+    ...(screenWidth === 1024 && {
+      height: 75,
+      width: 10,
+      backgroundColor: "#000",
+      position: "absolute",
+      top: 285,
+      left: 110,
+    }),
+    ...(screenWidth === 414 && {
+      top: 190,
+    }),
   },
   rightLeg: {
     height: 75,
@@ -319,6 +475,18 @@ const styles = StyleSheet.create({
     top: 212,
     left: 125,
     transform: [{ rotate: "-45deg" }],
+    //style for ipad
+    ...(screenWidth === 1024 && {
+      height: 75,
+      width: 10,
+      backgroundColor: "#000",
+      position: "absolute",
+      top: 285,
+      left: 160,
+    }),
+    ...(screenWidth === 414 && {
+      top: 190,
+    }),
   },
   stickFigure: {
     width: "30%",
@@ -338,6 +506,20 @@ const styles = StyleSheet.create({
 
     top: 80,
     right: -130,
+    ...(screenWidth === 1024 && {
+      height: 70,
+      width: 70,
+      borderRadius: 50,
+      backgroundColor: "#fff",
+      borderWidth: 8,
+      borderColor: "#000",
+      alignItems: "center",
+      justifyContent: "center",
+      position: "absolute",
+
+      top: 110,
+      right: -175,
+    }),
   },
   eyes: {
     width: 8,
@@ -345,14 +527,29 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
     borderRadius: 10,
     position: "absolute",
+    ...(screenWidth === 1024 && {
+      width: 10,
+      height: 10,
+      backgroundColor: "#000",
+      borderRadius: 10,
+      position: "absolute",
+    }),
   },
   leftEye: {
     left: 20,
     top: 10,
+    ...(screenWidth === 1024 && {
+      left: 10,
+      top: 11,
+    }),
   },
   rightEye: {
     right: 20,
     top: 10,
+    ...(screenWidth === 1024 && {
+      right: 10,
+      top: 11,
+    }),
   },
   smile: {
     width: 15,
@@ -361,6 +558,14 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 35,
     borderBottomRightRadius: 35,
     backgroundColor: "black",
+    ...(screenWidth === 1024 && {
+      width: 20,
+      height: 11,
+      marginTop: 18,
+      borderBottomLeftRadius: 35,
+      borderBottomRightRadius: 35,
+      backgroundColor: "black",
+    }),
   },
   frown: {
     width: 15,
@@ -369,5 +574,13 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 35,
     borderTopRightRadius: 35,
     backgroundColor: "black",
+    ...(screenWidth === 1024 && {
+      width: 20,
+      height: 11,
+      marginTop: 18,
+      borderTopLeftRadius: 35,
+      borderTopRightRadius: 35,
+      backgroundColor: "black",
+    }),
   },
 });

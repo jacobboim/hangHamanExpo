@@ -105,28 +105,16 @@ const MainHangHaman = () => {
         setShowModal(true);
         setGameOver(true);
       }
-    }, 1000);
-    // hasWon();
-    // hasLost();
+    }, 400);
   }, [isWinner, isLoser]);
+
   console.log(wordToGuess);
   console.log(showModal, " this is show modal");
 
   return (
     <View style={styles.container}>
       <LinearGradient
-        // colors={["#607D8B", "#90A4AE", "#B0BEC5", "#CFD8DC", "#ECEFF1"]}
         colors={["#607D8B", "#546E7A", "#455A64", "#37474F", "#263238"]}
-        // colors={["#607D8B", "#455A64", "#37474F", "#263238", "#212121"]}
-        // colors={[
-        //   "#607D8B",
-        //   "#546E7A",
-        //   "#455A64",
-        //   "#37474F",
-        //   "#263238",
-        //   "#212121",
-        //   "#000000",
-        // ]}
         style={styles.linearGradient}
       >
         <HangmanDrawing

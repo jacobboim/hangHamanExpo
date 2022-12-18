@@ -21,12 +21,28 @@ export default StyleSheet.create({
     justifyContent: "center",
   },
   key: {
-    width: 35,
+    width: 33,
     height: 45,
     margin: 2,
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
+
+    //style for ipad screen
+    ...(screenWidth === 1024 && {
+      width: 75,
+      height: 65,
+      margin: 2,
+      borderRadius: 5,
+      justifyContent: "center",
+      alignItems: "center",
+    }),
+
+    //style for small screen
+    ...(screenWidth === 414 && {
+      width: 35,
+      height: 45,
+    }),
   },
   active: {
     backgroundColor: "blue",
