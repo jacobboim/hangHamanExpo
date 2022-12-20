@@ -14,6 +14,7 @@ import Animated, {
   FlipInYRight,
   BounceIn,
   FadeOutDown,
+  SlideOutDown,
 } from "react-native-reanimated";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -66,6 +67,7 @@ const HangmanDrawing = ({ numberOfGuesses, isWinner, isLoser }) => {
       transform: [{ rotate: "-145deg" }],
     },
   });
+
   const HAT = (
     <Animated.View
       entering={RollInLeft.duration(1300).springify().mass(0.5)}
@@ -111,6 +113,44 @@ const HangmanDrawing = ({ numberOfGuesses, isWinner, isLoser }) => {
     <Animated.View entering={leftLeg.duration(1000)} style={styles.leftLeg} />
   );
 
+  const Headtwo_LOSING = (
+    <View style={styles.headTwo}>
+      <View style={[styles.eyes, styles.leftEye]} />
+      <View style={[styles.eyes, styles.rightEye]} />
+      <View style={isWinner ? styles.smile : styles.frown} />
+    </View>
+  );
+
+  const BODY_LOSING = <View style={styles.body} />;
+
+  const RIGHT_ARM_LOSING = <View style={styles.rightArm} />;
+
+  const LEFT_ARM_LOSING = <View style={styles.leftArm} />;
+
+  const RIGHT_LEG_LOSING = <View style={styles.rightLeg} />;
+
+  const LEFT_LEG_LOSING = <View style={styles.leftLeg} />;
+
+  const hamanTash_LOSING = (
+    <Image
+      source={ICONS.hamanTash}
+      style={{
+        width: 40,
+        height: 33,
+        position: "absolute",
+        top: 47,
+        right: -125,
+        ...(screenWidth === 1024 && {
+          width: 70,
+          height: 70,
+          position: "absolute",
+          top: 48,
+          right: -175,
+        }),
+      }}
+    />
+  );
+
   const hamanTash = (
     <Animated.Image
       entering={RollInLeft.duration(1300).springify().mass(0.5)}
@@ -141,17 +181,23 @@ const HangmanDrawing = ({ numberOfGuesses, isWinner, isLoser }) => {
   };
 
   const BODY_PARTS = [
-    // HAT,
     hamanTash,
-    // HEAD,
-    // Headtwo,
-
     ifWinnerShowCertainHead(),
     BODY,
     RIGHT_ARM,
     LEFT_ARM,
     RIGHT_LEG,
     LEFT_LEG,
+  ];
+
+  const LOSING_PARTS = [
+    hamanTash_LOSING,
+    Headtwo_LOSING,
+    BODY_LOSING,
+    RIGHT_ARM_LOSING,
+    LEFT_ARM_LOSING,
+    RIGHT_LEG_LOSING,
+    LEFT_LEG_LOSING,
   ];
 
   useEffect(() => {
@@ -183,10 +229,17 @@ const HangmanDrawing = ({ numberOfGuesses, isWinner, isLoser }) => {
         Hang Haman
       </Text>
       <Animated.View
-        exiting={FadeOutDown.duration(8300).springify().mass(0.5)}
-        // style={[styles.gallow, { display: isLoser === true ? "none" : "flex" }]}
+      // style={[styles.gallow, { display: isLoser === true ? "none" : "flex" }]}
       >
-        {BODY_PARTS.slice(0, numberOfGuesses)}
+        {/* {BODY_PARTS.slice(0, numberOfGuesses)} */}
+
+        {isLoser === true ? (
+          <Animated.View entering={FadeOutDown.duration(3500)}>
+            {LOSING_PARTS}
+          </Animated.View>
+        ) : (
+          BODY_PARTS.slice(0, numberOfGuesses)
+        )}
       </Animated.View>
 
       <View style={styles.stickFigure}>
